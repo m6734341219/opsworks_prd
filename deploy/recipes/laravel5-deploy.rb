@@ -10,9 +10,6 @@ node[:deploy].each do |app_name, deploy|
     command <<-EOH
       composer install -d #{deploy[:deploy_to]}/current --optimize-autoloader
     EOH
-    command <<-EOH
-      composer dump-autoload --optimize-autoloader
-    EOH
   end
 
   # Copy the ".env.example" to ".env", and edit environment configration from 'Stack Custom JSON' setting.
