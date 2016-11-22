@@ -12,5 +12,5 @@ cookbook 'composer', '~> 2.2.0'
 # mysql
 cookbook 'mysql', '= 7.2.0'
 
-# system
-cookbook 'system', '~> 0.11.2'
+# timezone-ii
+cookbook 'timezone-ii', '~> 0.2.0'
