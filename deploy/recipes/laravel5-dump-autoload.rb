@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: deploy
-# Recipe:: laravel5-dump-autoload.rb
+# Recipe:: laravel5-dump-autoload
 #
 
 node[:deploy].each do |app_name, deploy|
