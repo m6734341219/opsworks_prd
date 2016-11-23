@@ -29,7 +29,7 @@ ruby_block "AcceptFilter http" do
 
   block do
     code <<-EOC
-      echo "AcceptFilter http none" >> path
+      echo "AcceptFilter http none" >> /etc/httpd/conf/httpd.conf
     EOC
   end
 end
@@ -45,7 +45,7 @@ ruby_block "AcceptFilter https" do
 
   block do
     code <<-EOC
-      echo "AcceptFilter https none" >> path
+      echo "AcceptFilter https none" >> /etc/httpd/conf/httpd.conf
     EOC
   end
 end
