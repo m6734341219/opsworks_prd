@@ -18,38 +18,6 @@ ruby_block "add %{X-Forwarded-For}i to LogFormat" do
   end
 end
 
-ruby_block "AcceptFilter http" do
-  path     = "/etc/httpd/conf/httpd.conf"
-  content  = File.read path
-  notifies :restart, "service[httpd]"
-
-  not_if do
-    content.match /^AcceptFilter http none$/
-  end
-
-  block do
-    code <<-EOC
-      echo "AcceptFilter http none" >> /etc/httpd/conf/httpd.conf
-    EOC
-  end
-end
-
-ruby_block "AcceptFilter https" do
-  path     = "/etc/httpd/conf/httpd.conf"
-  content  = File.read path
-  notifies :restart, "service[httpd]"
-
-  not_if do
-    content.match /^AcceptFilter https none$/
-  end
-
-  block do
-    code <<-EOC
-      echo "AcceptFilter https none" >> /etc/httpd/conf/httpd.conf
-    EOC
-  end
-end
-
 service "httpd" do
   action :nothing
 end
