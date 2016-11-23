@@ -1,0 +1,6 @@
+name             'locale'
+maintainer       'YOUR_COMPANY_NAME'
+maintainer_email 'YOUR_EMAIL'
+license          'All rights reserved'
+description      'locale'
+version          '0.0.0'
