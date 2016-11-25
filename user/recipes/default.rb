@@ -4,13 +4,13 @@
 
 group 'cm-user' do
   group_name 'cm-user'
-  gid        502]
+  gid        502
   action     [:create, :manage]
 end
 
 group 'cm-mon' do
   group_name 'cm-mon'
-  gid        '503'
+  gid        503
   action     [:create, :manage]
 end
 
