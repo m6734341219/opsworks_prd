@@ -18,7 +18,7 @@ user 'batch' do
   uid      1000
   group    'apache'
   home     nil
-  shell    '/bin/bash:/sbin/nologin'
+  shell    '/sbin/nologin'
   password nil
   supports :manage_home => true, :non_unique => false
   action   [:create, :manage]
@@ -28,7 +28,7 @@ user 'rfdevlog' do
   uid      1000
   group    'apache'
   home     nil
-  shell    '/bin/bash:/sbin/nologin'
+  shell    '/sbin/nologin'
   password nil
   supports :manage_home => true, :non_unique => false
   action   [:create, :manage]
