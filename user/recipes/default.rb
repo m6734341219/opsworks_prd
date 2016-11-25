@@ -25,7 +25,7 @@ user 'batch' do
 end
 
 user 'rfdevlog' do
-  uid      1000
+  uid      1001
   group    'apache'
   home     nil
   shell    '/sbin/nologin'
