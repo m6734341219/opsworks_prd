@@ -16,7 +16,7 @@ end
 
 user 'batch' do
   uid      1000
-  group    'deploy'
+  group    'apache'
   home     nil
   shell    '/bin/bash'
   password nil
