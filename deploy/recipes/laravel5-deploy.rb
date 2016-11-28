@@ -56,5 +56,9 @@ node[:deploy].each do |app_name, deploy|
     owner deploy[:user]
     to "#{deploy[:deploy_to]}/shared/log"
   end
-
+  link "#{deploy[:deploy_to]}/current/storage/json" do
+    group deploy[:group]
+    owner deploy[:user]
+    to "#{deploy[:deploy_to]}/shared/json"
+  end
 end
