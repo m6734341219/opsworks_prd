@@ -53,3 +53,25 @@ user 'cm-mon' do
   supports :manage_home => true, :non_unique => false
   action   [:create, :manage]
 end
+
+#
+# umask
+#
+
+bash "batch umask 0002" do
+  not_if 'grep "umask"  /home/batch/.bachrc'
+
+  code <<-EOC
+    echo; >> /home/batch/.bachrc
+    echo "umask 0002" >> /home/batch/.bachrc
+  EOC
+end
+
+bash "deploy umask 0002" do
+  not_if 'grep "umask"  /home/deploy/.bachrc'
+
+  code <<-EOC
+    echo; >> /home/deploy/.bachrc
+    echo "umask 0002" >> /home/batch/.bachrc
+  EOC
+end
