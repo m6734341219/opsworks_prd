@@ -65,7 +65,7 @@ node[:deploy].each do |app_name, deploy|
   # Add write-ssl-routing to "current/public/.htaccess"
   execute ".htaccess last line delete" do
     command <<-EOH
-      sed '$d' #{deploy[:deploy_to]}/current/public/.htaccess
+      sed -e '$d' #{deploy[:deploy_to]}/current/public/.htaccess
     EOH
   end
 
