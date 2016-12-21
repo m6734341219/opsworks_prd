@@ -64,8 +64,8 @@ node[:deploy].each do |app_name, deploy|
 
   # Add write-ssl-routing to "current/public/.htaccess"
   if node[:laravel5_deploy][:ssl] == "On"
-  not_if 'grep "# Force HTTPS with ELB"  #{deploy[:deploy_to]}/current/public/.htaccess'
-    code <<-EOC
+    #not_if 'grep "# Force HTTPS with ELB"  #{deploy[:deploy_to]}/current/public/.htaccess'
+    command <<-EOC
       echo; >> #{deploy[:deploy_to]}/current/public/.htaccess
       echo "# Force HTTPS with ELB" >> #{deploy[:deploy_to]}/current/public/.htaccess
       echo "RewriteCond %{HTTPS} !=on" >> #{deploy[:deploy_to]}/current/public/.htaccess
