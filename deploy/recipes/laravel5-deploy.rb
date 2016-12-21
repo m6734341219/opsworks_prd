@@ -63,17 +63,12 @@ node[:deploy].each do |app_name, deploy|
   end
 
   # Add write-ssl-routing to "current/public/.htaccess"
-  bash "add ssl routing" do
-    if node[:laravel5_deploy][:ssl] == "On"
-      #not_if 'grep "# Force HTTPS with ELB"  #{deploy[:deploy_to]}/current/public/.htaccess'
-      code <<-EOC
-        echo; >> #{deploy[:deploy_to]}/current/public/.htaccess
-        echo "# Force HTTPS with ELB" >> #{deploy[:deploy_to]}/current/public/.htaccess
-        echo "RewriteCond %{HTTPS} !=on" >> #{deploy[:deploy_to]}/current/public/.htaccess
-        echo "RewriteCond %{HTTP:X-Forwarded-Proto} !=https" >> #{deploy[:deploy_to]}/current/public/.htaccess
-        echo "RewriteCond %{REQUEST_URI} !(^/health)" >> #{deploy[:deploy_to]}/current/public/.htaccess
-        echo "RewriteRule ^/?(.*) https://%{HTTP_HOST}/$1 [R,L]" >> #{deploy[:deploy_to]}/current/public/.htaccess
-      EOC
+  file "add ssl routing" do
+    path     = "#{deploy[:deploy_to]}/current/public/.htaccess"
+    content  = File.read path
+
+    File.open path, "w" do |file|
+      file.write content.gsub(/^RewriteEngine On/){|s| s+"    # Force HTTPS with ELB\n    RewriteCond %{HTTPS} !=on\n    RewriteCond %{HTTP:X-Forwarded-Proto} !=https\n    RewriteCond %{REQUEST_URI} !(^/health)\n    RewriteRule ^/?(.*) https://%{HTTP_HOST}/$1 [R,L]"}
     end
   end
 end
