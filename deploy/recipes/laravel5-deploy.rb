@@ -68,7 +68,20 @@ node[:deploy].each do |app_name, deploy|
     content  = File.read path
 
     File.open path, "w" do |file|
-      file.write content.gsub(/^RewriteEngine On/){%RewriteEngine On "#{Regexp.last_match 1} "    # Force HTTPS with ELB\n    RewriteCond %{HTTPS} !=on\n    RewriteCond %{HTTP:X-Forwarded-Proto} !=https\n    RewriteCond %{REQUEST_URI} !(^/health)\n    RewriteRule ^/?(.*) https://%{HTTP_HOST}/$1 [R,L]"}
+      file.write content.gsub(/^</IfModule> ,"")
     end
+  end
+
+  bash "add ssl routing" do
+    code <<-EOC
+      echo; >> #{deploy[:deploy_to]}/current/public/.htaccess
+      echo "    # Force HTTPS with ELB" >> #{deploy[:deploy_to]}/current/public/.htaccess
+      echo "    RewriteCond %{HTTPS} !=on" >> #{deploy[:deploy_to]}/current/public/.htaccess
+      echo "    RewriteCond %{HTTP:X-Forwarded-Proto} !=https" >> #{deploy[:deploy_to]}/current/public/.htaccess
+      echo "    RewriteCond %{REQUEST_URI} !(^/health)" >> #{deploy[:deploy_to]}/current/public/.htaccess
+      echo "    RewriteRule ^/?(.*) https://%{HTTP_HOST}/$1 [R,L]" >> #{deploy[:deploy_to]}/current/public/.htaccess
+      echo "    RewriteRule ^/?(.*) https://%{HTTP_HOST}/$1 [R,L]" >> #{deploy[:deploy_to]}/current/public/.htaccess
+      echo "</IfModule>" >> #{deploy[:deploy_to]}/current/public/.htaccess
+    EOC
   end
 end
