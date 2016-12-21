@@ -63,22 +63,9 @@ node[:deploy].each do |app_name, deploy|
   end
 
   # Add write-ssl-routing to "current/public/.htaccess"
-  execute ".htaccess last line delete" do
-    command <<-EOH
-      sed -n '$!p' #{deploy[:deploy_to]}/current/public/.htaccess
-    EOH
-  end
-
-  bash "add ssl routing" do
-    code <<-EOC
-      echo; >> #{deploy[:deploy_to]}/current/public/.htaccess
-      echo "    # Force HTTPS with ELB" >> #{deploy[:deploy_to]}/current/public/.htaccess
-      echo "    RewriteCond %{HTTPS} !=on" >> #{deploy[:deploy_to]}/current/public/.htaccess
-      echo "    RewriteCond %{HTTP:X-Forwarded-Proto} !=https" >> #{deploy[:deploy_to]}/current/public/.htaccess
-      echo "    RewriteCond %{REQUEST_URI} !(^/health)" >> #{deploy[:deploy_to]}/current/public/.htaccess
-      echo "    RewriteRule ^/?(.*) https://%{HTTP_HOST}/$1 [R,L]" >> #{deploy[:deploy_to]}/current/public/.htaccess
-      echo "    RewriteRule ^/?(.*) https://%{HTTP_HOST}/$1 [R,L]" >> #{deploy[:deploy_to]}/current/public/.htaccess
-      echo "</IfModule>" >> #{deploy[:deploy_to]}/current/public/.htaccess
-    EOC
+  file 'add ssl routing' do
+    path = "#{deploy[:deploy_to]}/current/public/.htaccess"
+    file = Chef::Util::FileEdit.new(path)
+    _file.insert_line_after_match(/RewriteEngine On/, '\n    # Force HTTPS with ELB')
   end
 end
