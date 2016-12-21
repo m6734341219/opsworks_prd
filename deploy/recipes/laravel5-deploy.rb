@@ -74,5 +74,6 @@ node[:deploy].each do |app_name, deploy|
         echo "RewriteCond %{REQUEST_URI} !(^/health)" >> #{deploy[:deploy_to]}/current/public/.htaccess
         echo "RewriteRule ^/?(.*) https://%{HTTP_HOST}/$1 [R,L]" >> #{deploy[:deploy_to]}/current/public/.htaccess
       EOC
+    end
   end
 end
