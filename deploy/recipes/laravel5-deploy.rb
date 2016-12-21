@@ -68,7 +68,7 @@ node[:deploy].each do |app_name, deploy|
     content  = File.read path
 
     File.open path, "w" do |file|
-      file.write content.gsub(/^RewriteEngine On/){|s| s+"    # Force HTTPS with ELB\n    RewriteCond %{HTTPS} !=on\n    RewriteCond %{HTTP:X-Forwarded-Proto} !=https\n    RewriteCond %{REQUEST_URI} !(^/health)\n    RewriteRule ^/?(.*) https://%{HTTP_HOST}/$1 [R,L]"}
+      file.write content.gsub(/^RewriteEngine On/){%RewriteEngine On "#{Regexp.last_match 1} "    # Force HTTPS with ELB\n    RewriteCond %{HTTPS} !=on\n    RewriteCond %{HTTP:X-Forwarded-Proto} !=https\n    RewriteCond %{REQUEST_URI} !(^/health)\n    RewriteRule ^/?(.*) https://%{HTTP_HOST}/$1 [R,L]"}
     end
   end
 end
