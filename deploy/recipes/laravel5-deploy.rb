@@ -61,11 +61,4 @@ node[:deploy].each do |app_name, deploy|
     owner deploy[:user]
     to "#{deploy[:deploy_to]}/shared/json"
   end
-
-  # Add write-ssl-routing to "current/public/.htaccess"
-  file 'add ssl routing' do
-    path = "#{deploy[:deploy_to]}/current/public/.htaccess"
-    file = Chef::Util::FileEdit.new(path)
-    _file.insert_line_after_match(/RewriteEngine On/, '\n    # Force HTTPS with ELB')
-  end
 end
