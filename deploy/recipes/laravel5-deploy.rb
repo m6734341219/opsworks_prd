@@ -63,13 +63,10 @@ node[:deploy].each do |app_name, deploy|
   end
 
   # Add write-ssl-routing to "current/public/.htaccess"
-  file "add ssl routing" do
-    path     = "#{deploy[:deploy_to]}/current/public/.htaccess"
-    content  = File.read path
-
-    File.open path, "w" do |file|
-      file.write content.gsub(/^</IfModule> ,"")
-    end
+  execute ".htaccess last line delete" do
+    command <<-EOH
+      sed '$d' #{deploy[:deploy_to]}/current/public/.htaccess
+    EOH
   end
 
   bash "add ssl routing" do
